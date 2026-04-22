@@ -4,9 +4,6 @@ The `genius` CLI for [MailGenius](https://mailgenius.app). Log in, manage
 keys and webhook subscriptions, send transactional emails, emit events,
 and tail the audit log — straight from your terminal.
 
-> Phase 2 in [Plans/Developers/Developers-PRD.md §16](../../Plans/Developers/Developers-PRD.md);
-> scaffolded early so the API + SDK gain a real end-to-end exerciser.
-
 ## Install
 
 ```bash

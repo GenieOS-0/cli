@@ -1,8 +1,7 @@
 /**
- * `genius` CLI — Plans/Developers/Developers-PRD.md §16 Phase 2.
+ * `genius` CLI.
  *
- * Phase-2 surface, scaffolded early so the SDK + API gain a real
- * end-to-end exerciser:
+ * Surface:
  *
  *   genius login                       interactive — paste an API key
  *   genius logout
