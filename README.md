@@ -1,6 +1,6 @@
 # @mailgenius/cli — `genius`
 
-The `genius` CLI for [MailGenius](https://mailgenius.app). Log in, manage
+The `genius` CLI for [MailGenius](https://mailgenius.pro). Log in, manage
 keys and webhook subscriptions, send transactional emails, emit events,
 and tail the audit log — straight from your terminal.
 
@@ -16,7 +16,7 @@ npx -y @mailgenius/cli help
 
 ```bash
 genius login
-# Open https://app.mailgenius.app/settings/api-keys, create a key, paste it.
+# Open https://app.mailgenius.pro/settings/api-keys, create a key, paste it.
 ```
 
 The token is written to `~/.mailgenius/credentials.json` with `0600`
@@ -44,9 +44,9 @@ verifying that an integration is wiring up to the right hooks.
 ## Connecting to a non-default API host
 
 ```bash
-genius login --api-url=https://api.staging.mailgenius.app
+genius login --api-url=https://api.staging.mailgenius.pro
 # or per-call
-genius whoami --api-url=https://api.staging.mailgenius.app
+genius whoami --api-url=https://api.staging.mailgenius.pro
 ```
 
 ## License

@@ -67,7 +67,7 @@ function resolveApiUrl(): string {
   return (
     process.env.MAILGENIUS_API_URL?.trim() ||
     loadCredentials().apiUrl?.trim() ||
-    'https://api.mailgenius.app'
+    'https://api.mailgenius.pro'
   );
 }
 
@@ -204,7 +204,7 @@ async function cmdLogin(args: ParsedArgs): Promise<void> {
     if (!process.stdin.isTTY) {
       fail('No API key supplied and stdin is not a TTY. Use --api-key=<token>.');
     }
-    info('Open https://app.mailgenius.app/settings/api-keys, create a key, and paste it here.');
+    info('Open https://app.mailgenius.pro/settings/api-keys, create a key, and paste it here.');
     const rl = createInterface({ input: process.stdin, output: process.stdout });
     apiKey = (await rl.question(paint('API key: ', 'cyan'))).trim();
     rl.close();
@@ -214,7 +214,7 @@ async function cmdLogin(args: ParsedArgs): Promise<void> {
   // Verify the key works before persisting.
   const probe = new MailGenius({
     apiKey,
-    baseUrl: apiUrl ?? 'https://api.mailgenius.app',
+    baseUrl: apiUrl ?? 'https://api.mailgenius.pro',
   });
   try {
     const ws = await probe.workspace.get();
@@ -469,7 +469,7 @@ COMMANDS
 
 GLOBAL FLAGS
   --api-key=<token>    Override the saved key for one invocation
-  --api-url=<url>      Point at a custom MailGenius API host (default https://api.mailgenius.app)
+  --api-url=<url>      Point at a custom MailGenius API host (default https://api.mailgenius.pro)
   --json               Print raw JSON responses where supported
   -h, --help           Show this message
 `);

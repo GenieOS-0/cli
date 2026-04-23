@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "The `genius` CLI — log in, manage keys, tail audit logs, send transactional emails from your terminal.",
   "license": "MIT",
-  "homepage": "https://docs.mailgenius.app/cli",
+  "homepage": "https://docs.mailgenius.pro/cli",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mail-genius/mailgenius.git",
