@@ -1,4 +1,4 @@
-# @mailgenius/cli — `genius`
+# mailgenius-cli — `genius`
 
 The `genius` CLI for [MailGenius](https://mailgenius.pro). Log in, manage
 keys and webhook subscriptions, send transactional emails, emit events,
@@ -7,9 +7,9 @@ and tail the audit log — straight from your terminal.
 ## Install
 
 ```bash
-npm install -g @mailgenius/cli
+npm install -g mailgenius-cli
 # or run ad-hoc
-npx -y @mailgenius/cli help
+npx -y mailgenius-cli help
 ```
 
 ## Authenticate

@@ -16,7 +16,7 @@
     "declaration": false,
     "sourceMap": true,
     "paths": {
-      "@mailgenius/sdk": ["../sdk-node/src/index.ts"]
+      "mailgenius": ["../sdk-node/src/index.ts"]
     }
   },
   "include": ["src/**/*", "test/**/*"]

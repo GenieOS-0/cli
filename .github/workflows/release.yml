@@ -1,6 +1,6 @@
 name: Release
 
-# Tag-driven publish for @mailgenius/cli.
+# Tag-driven publish for mailgenius-cli.
 #
 #   git tag v0.1.1
 #   git push origin v0.1.1
@@ -8,7 +8,7 @@ name: Release
 # The tag value should match the `version` field in package.json. Provenance
 # attestations require this repo to be public.
 #
-# Note: the CLI bundles @mailgenius/sdk via tsup `noExternal`, so it pulls
+# Note: the CLI bundles mailgenius via tsup `noExternal`, so it pulls
 # the SDK from the npm registry at build time. If you bumped the SDK, make
 # sure it's already published before tagging the CLI.
 

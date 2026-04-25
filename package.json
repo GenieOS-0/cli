@@ -1,5 +1,5 @@
 {
-  "name": "@mailgenius/cli",
+  "name": "mailgenius-cli",
   "version": "0.1.0",
   "description": "The `genius` CLI — log in, manage keys, tail audit logs, send transactional emails from your terminal.",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@mailgenius/sdk": "^0.1.0",
+    "mailgenius": "^0.1.0",
     "tsup": "^8.5.1",
     "tsx": "^4.20.6",
     "typescript": "^5.5.4"

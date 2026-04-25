@@ -19,7 +19,7 @@
  * Dependency-light by design — no commander / yargs. Routing is a
  * hand-rolled dispatcher because the surface is small.
  */
-import { MailGenius, MailGeniusError } from '@mailgenius/sdk';
+import { MailGenius, MailGeniusError } from 'mailgenius';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
