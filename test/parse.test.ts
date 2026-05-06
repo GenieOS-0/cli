@@ -31,13 +31,13 @@ test('help prints usage', () => {
 test('--version prints version', () => {
   const r = runCli(['--version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /^genius v\d+\.\d+\.\d+/);
+  assert.match(r.stdout, /^genie v\d+\.\d+\.\d+/);
 });
 
 test('whoami fails without credentials', () => {
   const r = runCli(['whoami'], { MAILGENIUS_API_KEY: '', HOME: '/tmp/this-does-not-exist-mg-cli-test' });
   assert.notEqual(r.status, 0);
-  assert.match(r.stderr, /Not logged in|MailGenius API key/);
+  assert.match(r.stderr, /Not logged in|GenieOS API key/);
 });
 
 test('login --api-key non-tty bails with helpful message when no key', () => {

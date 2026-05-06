@@ -3,23 +3,23 @@
  *
  * Surface:
  *
- *   genius login                       interactive — paste an API key
- *   genius logout
- *   genius whoami                      print workspace + plan
- *   genius keys list|get
- *   genius webhooks list|create|delete
- *   genius templates list|get|render|send
- *   genius events emit
- *   genius logs tail                   poll /v1/audit until ^C
+ *   genie login                       interactive — paste an API key
+ *   genie logout
+ *   genie whoami                      print workspace + plan
+ *   genie keys list|get
+ *   genie webhooks list|create|delete
+ *   genie templates list|get|render|send
+ *   genie events emit
+ *   genie logs tail                   poll /v1/audit until ^C
  *
- * Credentials live at ``~/.mailgenius/credentials.json`` and are
+ * Credentials live at ``~/.genieos/credentials.json`` and are
  * shared with ``mailgenius-mcp``. The MAILGENIUS_API_KEY env var
  * always wins.
  *
  * Dependency-light by design — no commander / yargs. Routing is a
  * hand-rolled dispatcher because the surface is small.
  */
-import { MailGenius, MailGeniusError } from 'mailgenius';
+import { GenieOS, MailGeniusError } from 'genieos';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -39,7 +39,7 @@ interface Credentials {
 }
 
 function credentialsPath(): string {
-  return join(homedir(), '.mailgenius', 'credentials.json');
+  return join(homedir(), '.genieos', 'credentials.json');
 }
 
 function loadCredentials(): Credentials {
@@ -67,19 +67,19 @@ function resolveApiUrl(): string {
   return (
     process.env.MAILGENIUS_API_URL?.trim() ||
     loadCredentials().apiUrl?.trim() ||
-    'https://api.mailgenius.pro'
+    'https://api.genieos.pro'
   );
 }
 
-function makeClient(): MailGenius {
+function makeClient(): GenieOS {
   const apiKey = resolveApiKey();
   if (!apiKey) {
     fail(
       'Not logged in.\n' +
-        '  Run `genius login`, or set MAILGENIUS_API_KEY in your shell.',
+        '  Run `genie login`, or set MAILGENIUS_API_KEY in your shell.',
     );
   }
-  return new MailGenius({ apiKey, baseUrl: resolveApiUrl() });
+  return new GenieOS({ apiKey, baseUrl: resolveApiUrl() });
 }
 
 // --------------------------------------------------------------------------- //
@@ -204,7 +204,7 @@ async function cmdLogin(args: ParsedArgs): Promise<void> {
     if (!process.stdin.isTTY) {
       fail('No API key supplied and stdin is not a TTY. Use --api-key=<token>.');
     }
-    info('Open https://app.mailgenius.pro/settings/api-keys, create a key, and paste it here.');
+    info('Open https://app.genieos.pro/settings/api-keys, create a key, and paste it here.');
     const rl = createInterface({ input: process.stdin, output: process.stdout });
     apiKey = (await rl.question(paint('API key: ', 'cyan'))).trim();
     rl.close();
@@ -212,9 +212,9 @@ async function cmdLogin(args: ParsedArgs): Promise<void> {
   }
   const apiUrl = flag(args, 'api-url');
   // Verify the key works before persisting.
-  const probe = new MailGenius({
+  const probe = new GenieOS({
     apiKey,
-    baseUrl: apiUrl ?? 'https://api.mailgenius.pro',
+    baseUrl: apiUrl ?? 'https://api.genieos.pro',
   });
   try {
     const ws = await probe.workspace.get();
@@ -262,7 +262,7 @@ async function cmdKeys(args: ParsedArgs): Promise<void> {
   }
   if (sub === 'get') {
     const id = args.positionals.shift();
-    if (!id) fail('genius keys get <id>');
+    if (!id) fail('genie keys get <id>');
     info(asJson(await mg.keys.get(id)));
     return;
   }
@@ -313,7 +313,7 @@ async function cmdWebhooks(args: ParsedArgs): Promise<void> {
   }
   if (sub === 'delete') {
     const id = args.positionals.shift();
-    if (!id) fail('genius webhooks delete <id>');
+    if (!id) fail('genie webhooks delete <id>');
     await mg.webhooks.delete(id);
     ok(`Deleted webhook ${id}`);
     return;
@@ -339,13 +339,13 @@ async function cmdTemplates(args: ParsedArgs): Promise<void> {
   }
   if (sub === 'get') {
     const key = args.positionals.shift();
-    if (!key) fail('genius templates get <key>');
+    if (!key) fail('genie templates get <key>');
     info(asJson(await mg.templates.get(key)));
     return;
   }
   if (sub === 'render') {
     const key = args.positionals.shift();
-    if (!key) fail('genius templates render <key> [--vars=<json>]');
+    if (!key) fail('genie templates render <key> [--vars=<json>]');
     const vars = parseJsonFlag(args, 'vars');
     const out = await mg.templates.render(key, { variables: vars });
     info(paint('Subject:', 'bold') + ' ' + out.subject);
@@ -359,7 +359,7 @@ async function cmdTemplates(args: ParsedArgs): Promise<void> {
   }
   if (sub === 'send') {
     const key = args.positionals.shift();
-    if (!key) fail('genius templates send <key> --to=<email> [--vars=<json>]');
+    if (!key) fail('genie templates send <key> --to=<email> [--vars=<json>]');
     const to = requireFlag(args, 'to');
     const vars = parseJsonFlag(args, 'vars');
     const out = await mg.templates.send(key, { to, variables: vars });
@@ -441,13 +441,13 @@ async function cmdLogs(args: ParsedArgs): Promise<void> {
 }
 
 function cmdHelp(): void {
-  info(`genius v${VERSION}  —  MailGenius command-line client
+  info(`genie v${VERSION}  —  GenieOS command-line client
 
 USAGE
-  genius <command> [subcommand] [flags]
+  genie <command> [subcommand] [flags]
 
 COMMANDS
-  login                Authenticate with an API key (saved to ~/.mailgenius/credentials.json)
+  login                Authenticate with an API key (saved to ~/.genieos/credentials.json)
   logout               Forget the saved API key
   whoami               Print the current workspace and plan
 
@@ -469,7 +469,7 @@ COMMANDS
 
 GLOBAL FLAGS
   --api-key=<token>    Override the saved key for one invocation
-  --api-url=<url>      Point at a custom MailGenius API host (default https://api.mailgenius.pro)
+  --api-url=<url>      Point at a custom GenieOS API host (default https://api.genieos.pro)
   --json               Print raw JSON responses where supported
   -h, --help           Show this message
 `);
@@ -527,7 +527,7 @@ async function main(): Promise<void> {
     return;
   }
   if (argv[0] === '--version' || argv[0] === '-v') {
-    info(`genius v${VERSION}`);
+    info(`genie v${VERSION}`);
     return;
   }
 
@@ -560,7 +560,7 @@ async function main(): Promise<void> {
       await cmdLogs(args);
       break;
     default:
-      fail(`Unknown command: ${command}\n  Run \`genius help\` for usage.`);
+      fail(`Unknown command: ${command}\n  Run \`genie help\` for usage.`);
   }
 }
 

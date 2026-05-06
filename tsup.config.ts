@@ -8,7 +8,7 @@ export default defineConfig({
   splitting: false,
   banner: { js: '#!/usr/bin/env node' },
   // Bundle the SDK in (workspace dep that won't be on npm independently
-  // until mailgenius is published; this also means a single binary
+  // until genieos is published; this also means a single binary
   // for the npx-only flow).
-  noExternal: ['mailgenius'],
+  noExternal: ['genieos'],
 });
