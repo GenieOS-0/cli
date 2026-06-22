@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "outDir": "dist",
+    "declaration": false,
+    "sourceMap": true,
+    "paths": {
+      "genieos": ["../sdk-node/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*"]
+}
