@@ -35,13 +35,13 @@ test('--version prints version', () => {
 });
 
 test('whoami fails without credentials', () => {
-  const r = runCli(['whoami'], { MAILGENIUS_API_KEY: '', HOME: '/tmp/this-does-not-exist-mg-cli-test' });
+  const r = runCli(['whoami'], { GENIEOS_API_KEY: '', HOME: '/tmp/this-does-not-exist-mg-cli-test' });
   assert.notEqual(r.status, 0);
   assert.match(r.stderr, /Not logged in|GenieOS API key/);
 });
 
 test('login --api-key non-tty bails with helpful message when no key', () => {
-  const r = runCli(['login'], { MAILGENIUS_API_KEY: '', HOME: '/tmp/this-does-not-exist-mg-cli-test' });
+  const r = runCli(['login'], { GENIEOS_API_KEY: '', HOME: '/tmp/this-does-not-exist-mg-cli-test' });
   assert.notEqual(r.status, 0);
   // stdin is not a TTY in spawnSync, so the prompt path is the failure path.
   assert.match(r.stderr, /No API key/);
@@ -54,7 +54,7 @@ test('unknown command fails with hint', () => {
 });
 
 test('templates send requires --to', () => {
-  const r = runCli(['templates', 'send', 'welcome'], { MAILGENIUS_API_KEY: 'gos_test_offline' });
+  const r = runCli(['templates', 'send', 'welcome'], { GENIEOS_API_KEY: 'gos_test_offline' });
   assert.notEqual(r.status, 0);
   // Either the parser bails on missing --to, or the SDK fails to reach
   // the offline base URL. Either way we want a non-zero exit.

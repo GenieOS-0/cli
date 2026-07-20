@@ -1,6 +1,6 @@
 {
   "name": "@genie-os/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The `genie` CLI — log in, manage keys, tail audit logs, send transactional emails from your terminal.",
   "license": "MIT",
   "homepage": "https://docs.genieos.pro/cli",
@@ -30,7 +30,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@genie-os/sdk": "^0.1.1",
+    "@genie-os/sdk": "^0.1.2",
     "tsup": "^8.5.1",
     "tsx": "^4.20.6",
     "typescript": "^5.5.4"
