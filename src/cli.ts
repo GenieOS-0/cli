@@ -720,13 +720,36 @@ async function cmdLinks(args: ParsedArgs): Promise<void> {
   const gos = makeClient();
   if (sub === 'create' || sub === undefined) {
     const url = flag(args, 'url') ?? args.positionals.shift();
-    if (!url) fail('genie links create --url https://…');
+    if (!url) fail('genie links create --url https://… [--slug=…] [--label=…] [--utm-source=…] …');
+    const utmSource = flag(args, 'utm-source');
+    const utmMedium = flag(args, 'utm-medium');
+    const utmCampaign = flag(args, 'utm-campaign');
+    const utmContent = flag(args, 'utm-content');
+    const utmTerm = flag(args, 'utm-term');
+    const utm =
+      utmSource || utmMedium || utmCampaign || utmContent || utmTerm
+        ? {
+            ...(utmSource ? { source: utmSource } : {}),
+            ...(utmMedium ? { medium: utmMedium } : {}),
+            ...(utmCampaign ? { campaign: utmCampaign } : {}),
+            ...(utmContent ? { content: utmContent } : {}),
+            ...(utmTerm ? { term: utmTerm } : {}),
+          }
+        : undefined;
+    const tagsRaw = flag(args, 'tags');
+    const tags = tagsRaw
+      ? tagsRaw.split(',').map((s) => s.trim()).filter(Boolean)
+      : undefined;
     info(
       asJson(
         await gos.links.create({
           destinationUrl: url,
           ...(flag(args, 'slug') ? { slug: flag(args, 'slug') } : {}),
           ...(flag(args, 'label') ? { label: flag(args, 'label') } : {}),
+          ...(flag(args, 'campaign-id') ? { campaignId: flag(args, 'campaign-id') } : {}),
+          ...(flag(args, 'domain') ? { domain: flag(args, 'domain') } : {}),
+          ...(tags?.length ? { tags } : {}),
+          ...(utm ? { utm } : {}),
         }),
       ),
     );
@@ -854,7 +877,7 @@ COMMANDS
   marketing strategy|icps|defaults|set-defaults                        Marketing OS
   creations list|get|spawn|approve                                     Campaigns
   lists list|get|create|add-members                                    Contact lists
-  links create --url=https://…                                         Short links
+  links create --url=https://… [--slug=…] [--utm-source=…] …           Short links
 
   events emit <name> [--email=...] [--user-id=...] [--traits='{...}']  Emit a customer event
 

@@ -1,5 +1,11 @@
 # @genie-os/cli
 
+## 0.1.2
+
+- `genie links create` accepts `--utm-source` / `--utm-medium` /
+  `--utm-campaign` / `--utm-content` / `--utm-term`, plus `--tags`,
+  `--campaign-id`, and `--domain`.
+
 ## 0.1.1
 
 - `templates create` and `templates compose` commands.
