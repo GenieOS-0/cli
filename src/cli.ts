@@ -718,6 +718,36 @@ async function cmdLists(args: ParsedArgs): Promise<void> {
 async function cmdLinks(args: ParsedArgs): Promise<void> {
   const sub = args.positionals.shift();
   const gos = makeClient();
+  if (sub === 'list') {
+    const limitRaw = flag(args, 'limit');
+    info(
+      asJson(
+        await gos.links.list({
+          includeArchived: bool(args, 'include-archived'),
+          ...(limitRaw ? { limit: Number(limitRaw) } : {}),
+        }),
+      ),
+    );
+    return;
+  }
+  if (sub === 'utm-suggestions' || sub === 'utm') {
+    const field = flag(args, 'field') as
+      | 'source'
+      | 'medium'
+      | 'campaign'
+      | 'content'
+      | 'term'
+      | undefined;
+    info(
+      asJson(
+        await gos.links.utmSuggestions({
+          ...(field ? { field } : {}),
+          includeCounts: !bool(args, 'no-counts'),
+        }),
+      ),
+    );
+    return;
+  }
   if (sub === 'create' || sub === undefined) {
     const url = flag(args, 'url') ?? args.positionals.shift();
     if (!url) fail('genie links create --url https://… [--slug=…] [--label=…] [--utm-source=…] …');
@@ -755,7 +785,7 @@ async function cmdLinks(args: ParsedArgs): Promise<void> {
     );
     return;
   }
-  fail(`Unknown subcommand: links ${sub}\n  Available: create`);
+  fail(`Unknown subcommand: links ${sub}\n  Available: list, utm-suggestions, create`);
 }
 
 async function cmdSocial(args: ParsedArgs): Promise<void> {
@@ -877,7 +907,7 @@ COMMANDS
   marketing strategy|icps|defaults|set-defaults                        Marketing OS
   creations list|get|spawn|approve                                     Campaigns
   lists list|get|create|add-members                                    Contact lists
-  links create --url=https://… [--slug=…] [--utm-source=…] …           Short links
+  links list|utm-suggestions|create [--utm-source=…] …                 Short links
 
   events emit <name> [--email=...] [--user-id=...] [--traits='{...}']  Emit a customer event
 

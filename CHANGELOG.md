@@ -1,5 +1,10 @@
 # @genie-os/cli
 
+## 0.1.3
+
+- `genie links list` and `genie links utm-suggestions` — inspect existing
+  links and reuse prior UTM values before create.
+
 ## 0.1.2
 
 - `genie links create` accepts `--utm-source` / `--utm-medium` /
