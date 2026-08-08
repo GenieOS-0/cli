@@ -1,19 +1,19 @@
 {
-  "name": "mailgenius-cli",
-  "version": "0.1.0",
-  "description": "The `genius` CLI — log in, manage keys, tail audit logs, send transactional emails from your terminal.",
+  "name": "@genie-os/cli",
+  "version": "0.1.4",
+  "description": "The `genie` CLI — log in, manage keys, tail audit logs, send transactional emails from your terminal.",
   "license": "MIT",
   "homepage": "https://docs.genieos.pro/cli",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mail-genie/cli.git"
+    "url": "git+https://github.com/GenieOS-0/cli.git"
   },
   "bugs": {
-    "url": "https://github.com/mail-genie/cli/issues"
+    "url": "https://github.com/GenieOS-0/cli/issues"
   },
   "type": "module",
   "bin": {
-    "genius": "dist/cli.js"
+    "genie": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -30,7 +30,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "genieos": "^0.1.0",
+    "@genie-os/sdk": "^0.1.5",
     "tsup": "^8.5.1",
     "tsx": "^4.20.6",
     "typescript": "^5.5.4"

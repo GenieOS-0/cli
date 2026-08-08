@@ -1,6 +1,6 @@
 name: Release
 
-# Tag-driven publish for mailgenius-cli.
+# Tag-driven publish for @genie-os/cli.
 #
 #   git tag v0.1.1
 #   git push origin v0.1.1
@@ -8,7 +8,7 @@ name: Release
 # The tag value should match the `version` field in package.json. Provenance
 # attestations require this repo to be public.
 #
-# Note: the CLI bundles genieos via tsup `noExternal`, so it pulls
+# Note: the CLI bundles @genie-os/sdk via tsup `noExternal`, so it pulls
 # the SDK from the npm registry at build time. If you bumped the SDK, make
 # sure it's already published before tagging the CLI.
 
@@ -27,8 +27,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+
+      # npm Trusted Publishing (OIDC) requires npm >= 11.5.0; the runner ships older.
+      - run: npm install -g npm@latest
 
       - name: Verify tag matches package.json version
         run: |
@@ -39,10 +42,13 @@ jobs:
             exit 1
           fi
 
-      - run: npm ci
+      # CLI bundles @genie-os/sdk from the registry, so there's no committed
+      # lockfile (it can only be resolved once the SDK is published). Use
+      # `npm install`, not `npm ci`.
+      - run: npm install --no-audit --no-fund
       - run: npm run build
       - run: npm test --if-present
 
+      # Published via npm Trusted Publishing (OIDC) — no NPM_TOKEN needed.
+      # Provenance is attached automatically from this GitHub Actions run.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
